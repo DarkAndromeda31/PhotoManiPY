@@ -79,7 +79,7 @@ class Window(tk.Frame):
 
         def execute_file():
             """
-            Function that applies the changes to the file indicated by the filepath, It first finds the values used
+            Function that applies the changes to the file indicated by the file_path, It first finds the values used
             for the changes, then applies them in the order:
             1. Crop the image
             2. Shift the hue of the image
@@ -115,7 +115,7 @@ class Window(tk.Frame):
 
         def open_preview():
             """
-            Function to open a preview window of the image indicated from the filepath
+            Function to open a preview window of the image indicated from the file_path
             """
 
             filepath = pl.Path(file_io_input_path.get())
@@ -146,39 +146,32 @@ class Window(tk.Frame):
             img.grid(row=0, column=0)
 
         def open_GUI():
-            filepath = pl.Path(file_io_input_path.get())
+            """
+            Function to open the visual editor
+            """
+
+            file_path = pl.Path(file_io_input_path.get())
             gui_win = tk.Toplevel()
-            gui_win.wm_title(filepath.name)
+            gui_win.wm_title(file_path.name)
 
             toolbar = tk.Frame(gui_win, bd=1, relief="raised")
+
             toolbar.grid(row=0, column=0)
 
             crop_icon = mi.open_image("crop_icon.png")
             crop_image = ImageTk.PhotoImage(crop_icon)
 
             gui_tool_crop_button = tk.Button(toolbar, image=crop_image)
+            gui_tool_crop_button.image = crop_image
 
             gui_tool_crop_button.grid(row=0, column=0)
 
             # Find changes
-            print(file_io_input_path.get())
-            cur_image = mi.open_image(file_io_input_path.get())
-            crop_point1 = (int(tool_crop_top.get()), int(tool_crop_top2.get()))
-            crop_point2 = (int(tool_crop_bottom.get()), int(tool_crop_bottom2.get()))
-            hue_shift = int(tool_hue_shift_hue.get())
-            sat_shift = int(tool_hue_shift_sat.get())
-            lum_shift = int(tool_hue_shift_lum.get())
-            resize_x = float(tool_resize_horizontal.get())
-            resize_y = float(tool_resize_vertical.get())
-
-            # Apply changes
-            cur_image = ei.crop(cur_image, crop_point1, crop_point2)
-            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
-            cur_image = ei.resize(cur_image, (resize_x, resize_y))
-
+            cur_image = mi.open_image(file_path)
             main_pic = ImageTk.PhotoImage(cur_image)
 
             img = tk.Label(gui_win, image=main_pic)
+            img.image = main_pic
 
             img.grid(row=1, column=0)
 
