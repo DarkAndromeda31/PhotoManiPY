@@ -207,9 +207,9 @@ class Window(tk.Frame):
         tool_crop = tk.LabelFrame(tool, text='Crop')
         tool_resize = tk.LabelFrame(tool, text='Resize')
 
-        tool_hue_shift.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
-        tool_crop.grid(row=0, column=1, sticky="NSEW", padx=5, pady=5)
-        tool_resize.grid(row=0, column=2, sticky="NSEW", padx=5, pady=5)
+        tool_hue_shift.grid(row=0, column=0, rowspan=2, sticky="NSEW", padx=5, pady=5)
+        tool_crop.grid(row=0, column=1, rowspan=2, sticky="NSEW", padx=5, pady=5)
+        tool_resize.grid(row=0, column=2, rowspan=2, sticky="NSEW", padx=5, pady=5)
 
         # ----- WIDGETS -----
         # Define widgets for file IO main
@@ -242,17 +242,17 @@ class Window(tk.Frame):
         file_io_output_ext_dropdown.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
 
         # Define widgets for image preview
-        image_preview_test = tk.Label(image, text="Test")
-        file_io_preview_open = tk.Button(image, text="Open Preview", command=open_preview)
+        image_preview_test = tk.Label(image, text="Preview")
+        file_io_preview_open = tk.Button(image, text="Open", command=open_preview)
 
         image_preview_test.grid(row=0, column=0, padx=5, pady=5)
-        file_io_preview_open.grid(row=1, column=0, padx=5, pady=5)
+        file_io_preview_open.grid(row=0, column=1, padx=5, pady=5)
 
         # Define widgets for image GUI button
-        image_gui_test = tk.Label(image, text="Test")
-        image_gui_open = tk.Button(image, text="Open Graphical Editor", command=open_GUI)
+        image_gui_test = tk.Label(image, text="Graphical Editor")
+        image_gui_open = tk.Button(image, text="Open", command=open_GUI)
 
-        image_gui_test.grid(row=0, column=1, padx=5, pady=5)
+        image_gui_test.grid(row=1, column=0, padx=5, pady=5)
         image_gui_open.grid(row=1, column=1, padx=5, pady=5)
 
         # Define widgets for hue_shift
@@ -311,9 +311,11 @@ class Window(tk.Frame):
         tool_resize_horizontal.insert(0, "1.0")
 
         # Other buttons
-        tool_apply_button = tk.Button(tool, text="Apply", command=execute_file)
-        tool_apply_button.grid(row=0, column=3, padx=5, pady=5)
+        tool_apply_button = tk.Button(tool, text="Apply Change", command=execute_file)
+        tool_apply_save_button = tk.Button(tool, text="Apply and Save", command=execute_file)\
 
+        tool_apply_button.grid(row=0, column=3, padx=5, pady=5)
+        tool_apply_save_button.grid(row=1, column=3, padx=5, pady=5)
 
 def main():
     root = tk.Tk()
