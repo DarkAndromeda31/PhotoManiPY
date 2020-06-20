@@ -146,45 +146,42 @@ class Window(tk.Frame):
             img.grid(row=0, column=0)
 
         def open_GUI():
+            # ----- WINDOW -----
+            # Setup window
             filepath = pl.Path(file_io_input_path.get())
             gui_win = tk.Toplevel()
             gui_win.wm_title(filepath.name)
+            gui_win.iconbitmap("./images/favicon.ico")
 
+            # ----- FRAMES -----
+            # Define the Frames for each section
             toolbar = tk.Frame(gui_win, bd=1, relief="raised")
             toolbar.grid(row=0, column=0)
 
-            crop_icon = mi.open_image("crop_icon.png")
+            # ----- WIDGETS -----
+            # Define toolbar buttons
+            crop_icon = mi.open_image("./images/crop_icon.png")
             crop_image = ImageTk.PhotoImage(crop_icon)
 
             gui_tool_crop_button = tk.Button(toolbar, image=crop_image)
+            gui_tool_crop_button.image = crop_image
 
             gui_tool_crop_button.grid(row=0, column=0)
 
-            # Find changes
-            print(file_io_input_path.get())
+            # Define image display
             cur_image = mi.open_image(file_io_input_path.get())
-            crop_point1 = (int(tool_crop_top.get()), int(tool_crop_top2.get()))
-            crop_point2 = (int(tool_crop_bottom.get()), int(tool_crop_bottom2.get()))
-            hue_shift = int(tool_hue_shift_hue.get())
-            sat_shift = int(tool_hue_shift_sat.get())
-            lum_shift = int(tool_hue_shift_lum.get())
-            resize_x = float(tool_resize_horizontal.get())
-            resize_y = float(tool_resize_vertical.get())
-
-            # Apply changes
-            cur_image = ei.crop(cur_image, crop_point1, crop_point2)
-            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
-            cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
             main_pic = ImageTk.PhotoImage(cur_image)
 
             img = tk.Label(gui_win, image=main_pic)
+            img.image = main_pic
 
             img.grid(row=1, column=0)
 
         # ----- WINDOW -----
         # Setup window
         self.master.title("Photo ManiPy")
+        self.master.iconbitmap("./images/favicon.ico")
         self.grid(row=0, column=0)
 
         # ----- FRAMES -----
