@@ -312,10 +312,10 @@ class Window(tk.Frame):
 
         # Other buttons
         tool_apply_button = tk.Button(tool, text="Apply Change", command=execute_file)
-        tool_apply_save_button = tk.Button(tool, text="Apply and Save", command=execute_file)\
-
+        tool_apply_save_button = tk.Button(tool, text="Apply and Save", command=execute_file)
         tool_apply_button.grid(row=0, column=3, padx=5, pady=5)
         tool_apply_save_button.grid(row=1, column=3, padx=5, pady=5)
+
 
 def main():
     root = tk.Tk()
