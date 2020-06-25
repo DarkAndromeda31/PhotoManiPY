@@ -161,17 +161,23 @@ class Window(tk.Frame):
                 x1 = eventorigin.x
                 y1 = eventorigin.y
                 print("Point 2:", x1, y1)
+                gui_win.unbind("<Button 1>")
 
+                # Do the crop thing
                 point_1 = (x0, y0)
                 point_2 = (x1, y1)
                 print("P1:", point_1, "P2:", point_2)
 
-                gui_win.unbind("<Button 1>")
+                cur_image = mi.open_image(file_io_input_path.get())
+                cur_image = ei.crop(cur_image, point_1, point_2)
+
+                cur_image.show()
+
+                img.image = ImageTk.PhotoImage(cur_image)
 
 
             def visual_crop():
                 gui_win.bind("<Button 1>", getorigin)
-
 
             # ----- WINDOW -----
             # Setup window
