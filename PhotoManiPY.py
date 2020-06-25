@@ -38,7 +38,8 @@ class Window(tk.Frame):
             crop = f"({tool_crop_top.get()},{tool_crop_bottom.get()})"
             resize = f"(x{tool_resize_vertical.get()},x{tool_resize_horizontal.get()})"
 
-            outpath = path.replace(pl.Path(path).suffix, "") + hsl + crop + resize + str(file_io_output_ext_dropdown.current())
+            outpath = path.replace(pl.Path(path).suffix, "") + hsl + crop + resize + str(
+                file_io_output_ext_dropdown.current())
 
             file_io_output_path.delete(0, tk.END)
             file_io_output_path.insert(0, outpath)
@@ -147,6 +148,31 @@ class Window(tk.Frame):
             img.grid(row=0, column=0)
 
         def open_GUI():
+            def getorigin(eventorigin):
+                global x0, y0
+                x0 = eventorigin.x
+                y0 = eventorigin.y
+                print("Point 1:", x0, y0)
+
+                gui_win.bind("<Button 1>", getendpoint)
+
+            def getendpoint(eventorigin):
+                global x1, y1
+                x1 = eventorigin.x
+                y1 = eventorigin.y
+                print("Point 2:", x1, y1)
+
+                point_1 = (x0, y0)
+                point_2 = (x1, y1)
+                print("P1:", point_1, "P2:", point_2)
+
+                gui_win.unbind("<Button 1>")
+
+
+            def visual_crop():
+                gui_win.bind("<Button 1>", getorigin)
+
+
             # ----- WINDOW -----
             # Setup window
             filepath = pl.Path(file_io_input_path.get())
@@ -164,7 +190,7 @@ class Window(tk.Frame):
             crop_icon = mi.open_image("./images/crop_icon.png")
             crop_image = ImageTk.PhotoImage(crop_icon)
 
-            gui_tool_crop_button = ttk.Button(toolbar, image=crop_image)
+            gui_tool_crop_button = ttk.Button(toolbar, image=crop_image, command=visual_crop)
             gui_tool_crop_button.image = crop_image
 
             gui_tool_crop_button.grid(row=0, column=0)
@@ -337,7 +363,6 @@ def main():
     root.resizable(False, False)
 
     root.mainloop()
-
 
 
 if __name__ == '__main__':
