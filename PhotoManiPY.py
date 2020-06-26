@@ -9,14 +9,13 @@ IDE: PyCharm
 
 import pathlib as pl
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 
 from PIL import ImageTk
 
 import codec
 import edit_image as ei
 import manage_image as mi
-from tkinter_styles import *
 
 
 class Window(tk.Frame):
@@ -39,7 +38,7 @@ class Window(tk.Frame):
             resize = f"(x{tool_resize_vertical.get()},x{tool_resize_horizontal.get()})"
 
             outpath = path.replace(pl.Path(path).suffix, "") + hsl + crop + resize + str(
-                file_io_output_ext_dropdown.current())
+                file_io_output_ext_dropdown.get())
 
             file_io_output_path.delete(0, tk.END)
             file_io_output_path.insert(0, outpath)
@@ -115,6 +114,42 @@ class Window(tk.Frame):
             else:
                 mi.save_image(cur_image, output)
 
+        def execute_temp():
+            """
+            Function that applies the changes to the file indicated by the filepath, It first finds the values used
+            for the changes, then applies them in the order:
+            1. Crop the image
+            2. Shift the hue of the image
+            3. Resize the image
+            4. Any other post-processing effects
+            5. Save the image
+            """
+
+            # Update filename
+            update_outpath(file_io_input_path.get())
+
+            # Find changes
+            cur_image = mi.open_image(file_io_input_path.get())
+            crop_point1 = (int(tool_crop_top.get()), int(tool_crop_top2.get()))
+            crop_point2 = (int(tool_crop_bottom.get()), int(tool_crop_bottom2.get()))
+            hue_shift = int(tool_hue_shift_hue.get())
+            sat_shift = int(tool_hue_shift_sat.get())
+            lum_shift = int(tool_hue_shift_lum.get())
+            resize_x = float(tool_resize_horizontal.get())
+            resize_y = float(tool_resize_vertical.get())
+            path = file_io_output_path.get()
+
+            # Apply changes
+            cur_image = ei.crop(cur_image, crop_point1, crop_point2)
+            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
+            cur_image = ei.resize(cur_image, (resize_x, resize_y))
+
+            path = "./temp/" + pl.Path(path).name
+            mi.save_image(cur_image, path)
+
+            file_io_input_path.delete(0, tk.END)
+            file_io_input_path.insert(0, path)
+
         def open_preview():
             """
             Function to open a preview window of the image indicated from the filepath
@@ -133,7 +168,6 @@ class Window(tk.Frame):
             lum_shift = int(tool_hue_shift_lum.get())
             resize_x = float(tool_resize_horizontal.get())
             resize_y = float(tool_resize_vertical.get())
-            # output = file_io_output_path.get()
 
             # Apply changes
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
@@ -162,21 +196,29 @@ class Window(tk.Frame):
                 y1 = eventorigin.y
                 print("Point 2:", x1, y1)
                 gui_win.unbind("<Button 1>")
+                img.configure(cursor="")
 
                 # Do the crop thing
                 point_1 = (x0, y0)
                 point_2 = (x1, y1)
                 print("P1:", point_1, "P2:", point_2)
 
-                cur_image = mi.open_image(file_io_input_path.get())
-                cur_image = ei.crop(cur_image, point_1, point_2)
+                temp_image = mi.open_image(file_io_input_path.get())
+                temp_image = ei.crop(temp_image, point_1, point_2)
 
-                cur_image.show()
+                path = "./temp/" + pl.Path(file_io_input_path.get()).name
+                mi.save_image(temp_image, path)
 
-                img.image = ImageTk.PhotoImage(cur_image)
+                file_io_input_path.delete(0, tk.END)
+                file_io_input_path.insert(0, path)
 
+                new_image = mi.open_image("./temp/temp.png")
+                new_image = ImageTk.PhotoImage(new_image)
+                img.configure(image=new_image)
+                img.image = new_image
 
             def visual_crop():
+                img.configure(cursor="crosshair")
                 gui_win.bind("<Button 1>", getorigin)
 
             # ----- WINDOW -----
@@ -355,7 +397,7 @@ class Window(tk.Frame):
         tool_resize_horizontal.insert(0, "1.0")
 
         # Other buttons
-        tool_apply_button = ttk.Button(tool, text="Apply Change", command=execute_file)
+        tool_apply_button = ttk.Button(tool, text="Apply Change", command=execute_temp)
         tool_apply_save_button = ttk.Button(tool, text="Apply and Save", command=execute_file)
         tool_apply_button.grid(row=0, column=3, padx=5, pady=5)
         tool_apply_save_button.grid(row=1, column=3, padx=5, pady=5)
