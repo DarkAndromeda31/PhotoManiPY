@@ -91,7 +91,8 @@ class Window(tk.Frame):
             """
 
             # Update filename
-            update_outpath(file_io_input_path.get())
+            if not custom_outpath:
+                update_outpath(file_io_input_path.get())
 
             # Find changes
             cur_image = mi.open_image(file_io_input_path.get())
@@ -131,7 +132,8 @@ class Window(tk.Frame):
             """
 
             # Update filename
-            update_outpath(file_io_input_path.get())
+            if not custom_outpath:
+                update_outpath(file_io_input_path.get())
 
             # Find changes
             cur_image = mi.open_image(file_io_input_path.get())
@@ -287,10 +289,11 @@ class Window(tk.Frame):
         # Define sub-frames for file IO
         file_io_input_ext = ttk.LabelFrame(file_io, text='Input file extensions')
         file_io_output_ext = ttk.LabelFrame(file_io, text='Output extension')
+        file_io_custom = ttk.LabelFrame(file_io, text='Filepath')
 
         file_io_input_ext.grid(row=2, column=0, columnspan=2, sticky="NSEW", padx=5, pady=5)
-        file_io_input_ext.grid_columnconfigure(0, weight=1)
-        file_io_output_ext.grid(row=2, column=2, columnspan=1, sticky="NSW", padx=5, pady=5)
+        file_io_output_ext.grid(row=2, column=2, sticky="NSEW", padx=5, pady=5)
+        file_io_custom.grid(row=2, column=3, sticky="NSEW", padx=5, pady=5)
 
         # Define sub-frames for tools
         tool_hue_shift = ttk.LabelFrame(tool, text='Shift Hue')
@@ -332,6 +335,13 @@ class Window(tk.Frame):
         file_io_output_ext_dropdown.current(0)
 
         file_io_output_ext_dropdown.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
+
+        # Define widgets for file IO custom output name
+        custom_outpath = tk.IntVar()
+        custom_outpath.set(0)
+        file_io_custom_check = ttk.Checkbutton(file_io_custom, text="Custom Output Filepath", variable=custom_outpath)
+
+        file_io_custom_check.grid(row=0, column=0, padx=5, pady=3)
 
         # Define widgets for image preview
         image_preview_test = ttk.Label(image, text="Preview")
