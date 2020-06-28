@@ -212,7 +212,7 @@ class Window(tk.Frame):
                 file_io_input_path.delete(0, tk.END)
                 file_io_input_path.insert(0, path)
 
-                new_image = mi.open_image("./temp/temp.png")
+                new_image = mi.open_image("./temp/" + pl.Path(file_io_input_path.get()).name)
                 new_image = ImageTk.PhotoImage(new_image)
                 img.configure(image=new_image)
                 img.image = new_image
