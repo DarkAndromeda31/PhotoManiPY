@@ -36,8 +36,9 @@ class Window(tk.Frame):
             hsl = f"({tool_hue_shift_hue.get()},{tool_hue_shift_sat.get()},{tool_hue_shift_lum.get()})"
             crop = f"({tool_crop_top.get()},{tool_crop_bottom.get()})"
             resize = f"(x{tool_resize_vertical.get()},x{tool_resize_horizontal.get()})"
+            subpixel = f"({subpixel_activated.get()})"
 
-            outpath = path.replace(pl.Path(path).suffix, "") + hsl + crop + resize + str(
+            outpath = path.replace(pl.Path(path).suffix, "") + hsl + crop + resize + subpixel + str(
                 file_io_output_ext_dropdown.get())
 
             file_io_output_path.delete(0, tk.END)
@@ -108,6 +109,10 @@ class Window(tk.Frame):
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
+            # Apply effects
+            if subpixel_activated.get():
+                cur_image = ei.subpixel_conversion(cur_image)
+
             # Save image
             if ".maxpg" in output:
                 codec.save_as_codec(cur_image, output)
@@ -144,6 +149,10 @@ class Window(tk.Frame):
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
+            # Apply effects
+            if subpixel_activated.get():
+                cur_image = ei.subpixel_conversion(cur_image)
+
             path = "./temp/" + pl.Path(path).name
             mi.save_image(cur_image, path)
 
@@ -158,6 +167,7 @@ class Window(tk.Frame):
             filepath = pl.Path(file_io_input_path.get())
             prev_win = tk.Toplevel()
             prev_win.wm_title(filepath.name)
+            prev_win.resizable(False, False)
 
             # Find changes
             cur_image = mi.open_image(file_io_input_path.get())
@@ -173,6 +183,10 @@ class Window(tk.Frame):
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
+
+            # Apply effects
+            if subpixel_activated.get():
+                cur_image = ei.subpixel_conversion(cur_image)
 
             pic = ImageTk.PhotoImage(cur_image)
 
@@ -226,6 +240,7 @@ class Window(tk.Frame):
             filepath = pl.Path(file_io_input_path.get())
             gui_win = tk.Toplevel()
             gui_win.wm_title(filepath.name)
+            gui_win.resizable(False, False)
             gui_win.iconbitmap("./images/favicon.ico")
 
             # ----- FRAMES -----
@@ -281,10 +296,12 @@ class Window(tk.Frame):
         tool_hue_shift = ttk.LabelFrame(tool, text='Shift Hue')
         tool_crop = ttk.LabelFrame(tool, text='Crop')
         tool_resize = ttk.LabelFrame(tool, text='Resize')
+        tool_effects = ttk.LabelFrame(tool, text='Effects')
 
         tool_hue_shift.grid(row=0, column=0, rowspan=2, sticky="NSEW", padx=5, pady=5)
         tool_crop.grid(row=0, column=1, rowspan=2, sticky="NSEW", padx=5, pady=5)
         tool_resize.grid(row=0, column=2, rowspan=2, sticky="NSEW", padx=5, pady=5)
+        tool_effects.grid(row=0, column=3, rowspan=2, sticky="NSEW", padx=5, pady=5)
 
         # ----- WIDGETS -----
         # Define widgets for file IO main
@@ -396,11 +413,18 @@ class Window(tk.Frame):
         tool_resize_horizontal.delete(0, tk.END)
         tool_resize_horizontal.insert(0, "1.0")
 
+        # Define widgets for effects
+        subpixel_activated = tk.IntVar()
+        subpixel_activated.set(0)
+        tool_effects_subpixel = ttk.Checkbutton(tool_effects, text="Subpixel Rendering", variable=subpixel_activated)
+
+        tool_effects_subpixel.grid(row=0, column=0, padx=5, pady=3)
+
         # Other buttons
-        tool_apply_button = ttk.Button(tool, text="Apply Change", command=execute_temp)
+        tool_apply_button = ttk.Button(tool, text="Apply Changes", command=execute_temp)
         tool_apply_save_button = ttk.Button(tool, text="Apply and Save", command=execute_file)
-        tool_apply_button.grid(row=0, column=3, padx=5, pady=5)
-        tool_apply_save_button.grid(row=1, column=3, padx=5, pady=5)
+        tool_apply_button.grid(row=0, column=4, padx=5, pady=5)
+        tool_apply_save_button.grid(row=1, column=4, padx=5, pady=5)
 
 
 def main():
