@@ -360,8 +360,10 @@ class Window(tk.Frame):
         custom_outpath = tk.IntVar()
         custom_outpath.set(0)
         file_io_custom_check = ttk.Checkbutton(file_io_custom, text="Custom Output Filepath", variable=custom_outpath)
+        file_io_custom_refresh = ttk.Button(file_io_custom, text="Update Output", command=update_outpath)
 
         file_io_custom_check.grid(row=0, column=0, padx=5, pady=3)
+        file_io_custom_refresh.grid(row=0, column=1, padx=5, pady=5)
 
         # Define widgets for image preview
         image_preview_test = ttk.Label(image, text="Preview")
