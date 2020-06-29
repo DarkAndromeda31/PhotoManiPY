@@ -1,6 +1,6 @@
 """
 Module: codec for Photo ManiPY
-Description:
+Description: Module that reads or writes an image to .maxpg file format.
 
 Made by: Maximilian Rose
 Created on 30/01/2020

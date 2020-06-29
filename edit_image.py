@@ -58,7 +58,6 @@ def crop(pic: Image, point1: tuple, point2: tuple) -> Image:
     for i in range(width):  # for every col:
         for j in range(hieght):  # For every row
             new_pixmap[i, j] = pixmap[i + point1[0], j + point1[1]]
-            # print(new_pixmap[i, j])
 
     return new_pic
 
@@ -110,8 +109,6 @@ def subpixel_conversion(pic: Image) -> Image:
 
             for k in range(3):  # for every color
                 for l in range(3):  # for every pixel of color
-                    # if color == (255, 255, 255, 255):
-                    #     new_pixmap[real_x + k, real_y + l] = (255, 255, 255)
                     if k == 0:
                         new_pixmap[real_x + k, real_y + l] = (color[0], 0, 0)
                     elif k == 1:

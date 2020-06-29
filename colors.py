@@ -20,7 +20,7 @@ def rgb_hsl(color):
     s *= 100
     l *= 100
 
-    return (round(h), round(s), round(l))
+    return round(h), round(s), round(l)
 
 
 def hsl_rgb(color):

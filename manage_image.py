@@ -1,6 +1,6 @@
 """
 Module: manage_image for Photo ManiPY
-Description: 
+Description: Module that saves and opens images
 
 Made by: Maximilian Rose
 Created on 18/12/2019
