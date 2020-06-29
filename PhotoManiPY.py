@@ -161,6 +161,16 @@ class Window(tk.Frame):
             file_io_input_path.delete(0, tk.END)
             file_io_input_path.insert(0, path)
 
+            # Change to default values of crop
+            cur_image = mi.open_image(file_io_input_path.get())
+            width, height = cur_image.size
+
+            tool_crop_bottom.delete(0, tk.END)
+            tool_crop_bottom.insert(0, width)
+
+            tool_crop_bottom2.delete(0, tk.END)
+            tool_crop_bottom2.insert(0, height)
+
         def open_preview():
             """
             Function to open a preview window of the image indicated from the filepath
@@ -227,6 +237,16 @@ class Window(tk.Frame):
 
                 file_io_input_path.delete(0, tk.END)
                 file_io_input_path.insert(0, path)
+
+                # Change to default values of crop
+                cur_image = mi.open_image(file_io_input_path.get())
+                width, height = cur_image.size
+
+                tool_crop_bottom.delete(0, tk.END)
+                tool_crop_bottom.insert(0, width)
+
+                tool_crop_bottom2.delete(0, tk.END)
+                tool_crop_bottom2.insert(0, height)
 
                 new_image = mi.open_image("./temp/" + pl.Path(file_io_input_path.get()).name)
                 new_image = ImageTk.PhotoImage(new_image)
