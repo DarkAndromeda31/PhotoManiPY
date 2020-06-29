@@ -147,10 +147,11 @@ def save_as_codec(pic: Image, filename: str) -> str:
 
 
 if __name__ == '__main__':
-    cur_image = mi.open_image("a lot of bank.PNG")
+    cur_image = mi.open_image("RGB_24bits_palette_sample_image.jpg")
+    print(generate_header(cur_image))
     # encoded = encode_image(cur_image)
-    save_as_codec(cur_image, "bank.maxpg")
+    # save_as_codec(cur_image, "bank.maxpg")
     # mi.save_image(decode_image(encoded), "codec.jpg")
     # datetime.fromtimestamp(time.time()).strftime('%c')
 
-    cur_image = decode_image("first_text.maxpg")
+    # cur_image = decode_image("first_text.maxpg")

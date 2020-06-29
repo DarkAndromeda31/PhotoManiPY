@@ -10,7 +10,13 @@ IDE: PyCharm
 from colorsys import hls_to_rgb, rgb_to_hls
 
 
-def rgb_hsl(color):
+def rgb_hsl(color: tuple) -> tuple:
+    """
+    Function that converts a rgb color code to hsl
+
+    :param color: tuple containing r, g, b
+    :return: tuple containing h, s, l
+    """
     r, g, b = color
     r, g, b = [x / 255.0 for x in (r, g, b)]
 
@@ -20,10 +26,16 @@ def rgb_hsl(color):
     s *= 100
     l *= 100
 
-    return round(h), round(s), round(l)
+    return (round(h), round(s), round(l))
 
 
-def hsl_rgb(color):
+def hsl_rgb(color: tuple) -> tuple:
+    """
+    Function that converts hsl to rgb
+
+    :param color: tuple containing h, s, l
+    :return: tuple containing r, g, b
+    """
     h, s, l = color
     h /= 360
     s /= 100
@@ -35,8 +47,8 @@ def hsl_rgb(color):
 
 
 if __name__ == '__main__':
-    color = (192, 64, 1)
-    newcolor = rgb_hsl(color)
+    acolor = (124, 116, 84)
+    newcolor = rgb_hsl(acolor)
     newercolor = hsl_rgb(newcolor)
     print(newcolor)
     print(newercolor)

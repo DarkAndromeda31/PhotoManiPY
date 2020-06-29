@@ -26,7 +26,7 @@ class Window(tk.Frame):
 
     # Creation of init_window
     def init_window(self):
-        def update_outpath(path):
+        def update_outpath(path: str):
             """
             Function that adds the changes to the filename then sets the output to this, this is that any changes in
             what edits are going to be done are reflected if those changes are made after the filename was last loaded.
@@ -78,6 +78,8 @@ class Window(tk.Frame):
             path = filedialog.askopenfilename(
                 filetypes=(("Image Files", "*.jpg"), ("All files", "*")))  # Add the readout from the other entry
             file_io_output_path.insert(0, path)
+
+            custom_outpath.set(1)
 
         def execute_file():
             """
@@ -132,7 +134,7 @@ class Window(tk.Frame):
             """
 
             # Update filename
-            if not custom_outpath:
+            if not custom_outpath.get():
                 update_outpath(file_io_input_path.get())
 
             # Find changes
@@ -344,7 +346,7 @@ class Window(tk.Frame):
 
         # Define widgets for file IO input extensions
         file_io_input_ext_entry = ttk.Entry(file_io_input_ext)
-        file_io_input_ext_entry.insert(0, "*.png:*.jpg:*.jpeg")
+        file_io_input_ext_entry.insert(0, "*.png:*.jpg:*.jpeg:**.maxpg")
 
         file_io_input_ext_entry.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
 
@@ -360,7 +362,8 @@ class Window(tk.Frame):
         custom_outpath = tk.IntVar()
         custom_outpath.set(0)
         file_io_custom_check = ttk.Checkbutton(file_io_custom, text="Custom Output Filepath", variable=custom_outpath)
-        file_io_custom_refresh = ttk.Button(file_io_custom, text="Update Output", command=update_outpath)
+        file_io_custom_refresh = ttk.Button(file_io_custom, text="Update Output",
+                                            command=lambda: update_outpath(file_io_input_path.get()))
 
         file_io_custom_check.grid(row=0, column=0, padx=5, pady=3)
         file_io_custom_refresh.grid(row=0, column=1, padx=5, pady=5)

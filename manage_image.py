@@ -7,7 +7,11 @@ Created on 18/12/2019
 IDE: PyCharm
 """
 
+import pathlib as pl
+
 from PIL import Image
+
+import codec as c
 
 
 def open_image(filename: str) -> Image:
@@ -18,7 +22,10 @@ def open_image(filename: str) -> Image:
     :return: The image as a PIL image object
     """
 
-    pic = Image.open(filename)
+    if pl.Path(filename).suffix == ".maxpg":
+        pic = c.decode_image(filename)
+    else:
+        pic = Image.open(filename)
 
     return pic
 
