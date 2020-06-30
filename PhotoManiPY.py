@@ -346,7 +346,7 @@ class Window(tk.Frame):
 
         # Define widgets for file IO input extensions
         file_io_input_ext_entry = ttk.Entry(file_io_input_ext)
-        file_io_input_ext_entry.insert(0, "*.png:*.jpg:*.jpeg:**.maxpg")
+        file_io_input_ext_entry.insert(0, "*.png:*.jpg:*.jpeg:*.maxpg")
 
         file_io_input_ext_entry.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
 
