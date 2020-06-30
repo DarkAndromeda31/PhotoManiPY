@@ -1,5 +1,6 @@
 """
 Module: PhotoManiPY for Photo ManiPY
+
 Description:
 
 Made by: Maximilian Rose
