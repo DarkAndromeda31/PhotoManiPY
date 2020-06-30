@@ -2,6 +2,8 @@ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
 python get-pip.py
 
+del get-pip.py
+
 python -m pip install Pillow
 
 mkdir temp
