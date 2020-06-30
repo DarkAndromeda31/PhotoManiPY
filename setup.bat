@@ -7,3 +7,6 @@ del get-pip.py
 python -m pip install Pillow
 
 mkdir temp
+
+@echo off
+set /p a=If you see all commands working, the program should of installed correctly
