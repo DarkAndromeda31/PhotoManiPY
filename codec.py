@@ -124,8 +124,7 @@ def decode_image(filename: str) -> Image:
 
     pic = decode_body(body, width, height, bit_depth)
 
-    print("showing")
-    pic.show()
+    print("Decoded Image")
 
     return pic
 
@@ -143,6 +142,8 @@ def save_as_codec(pic: Image, filename: str) -> str:
     with open(filename, "wb+") as f:
         f.write(binary)
 
+    print("Exported Image")
+
     return filename
 
 
@@ -154,4 +155,5 @@ if __name__ == '__main__':
     # mi.save_image(decode_image(encoded), "codec.jpg")
     # datetime.fromtimestamp(time.time()).strftime('%c')
 
+    # cur_image = decode_image("first_text.maxpg")
     # cur_image = decode_image("first_text.maxpg")

@@ -45,6 +45,8 @@ class Window(tk.Frame):
             file_io_output_path.delete(0, tk.END)
             file_io_output_path.insert(0, outpath)
 
+            print("Updated Ouput Path")
+
         def browse_file_in():
             """
             Function that opens a file browse dialogue then changes the input entry box and output entry box accordingly
@@ -68,7 +70,12 @@ class Window(tk.Frame):
             tool_crop_bottom2.delete(0, tk.END)
             tool_crop_bottom2.insert(0, height)
 
-            update_outpath(path)
+            if not custom_outpath.get():
+                update_outpath(path)
+
+            print("File Loaded")
+
+
 
         def browse_file_out():
             """
@@ -81,6 +88,8 @@ class Window(tk.Frame):
             file_io_output_path.insert(0, path)
 
             custom_outpath.set(1)
+
+            print("Custom Ouput Path Set")
 
         def execute_file():
             """
@@ -109,15 +118,20 @@ class Window(tk.Frame):
             output = file_io_output_path.get()
 
             # Apply changes
+            print("Cropping Image")
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
+            print("Changing Colors")
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
+            print("Resizing Image")
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
             # Apply effects
             if subpixel_activated.get():
+                print("Applying effects")
                 cur_image = ei.subpixel_conversion(cur_image)
 
             # Save image
+            print("Saving Image")
             if ".maxpg" in output:
                 codec.save_as_codec(cur_image, output)
             else:
@@ -150,14 +164,19 @@ class Window(tk.Frame):
             path = file_io_output_path.get()
 
             # Apply changes
+            print("Cropping Image")
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
+            print("Changing Colors")
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
+            print("Resizing Image")
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
             # Apply effects
             if subpixel_activated.get():
+                print("Applying effects")
                 cur_image = ei.subpixel_conversion(cur_image)
 
+            print("Saving Temp File")
             path = "./temp/" + pl.Path(path).name
             mi.save_image(cur_image, path)
 
@@ -193,14 +212,19 @@ class Window(tk.Frame):
             lum_shift = int(tool_hue_shift_lum.get())
             resize_x = float(tool_resize_horizontal.get())
             resize_y = float(tool_resize_vertical.get())
+            output = file_io_output_path.get()
 
             # Apply changes
+            print("Cropping Image")
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
+            print("Changing Colors")
             cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
+            print("Resizing Image")
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
 
             # Apply effects
             if subpixel_activated.get():
+                print("Applying effects")
                 cur_image = ei.subpixel_conversion(cur_image)
 
             pic = ImageTk.PhotoImage(cur_image)
@@ -228,9 +252,9 @@ class Window(tk.Frame):
                 img.configure(cursor="")
 
                 # Do the crop thing
+                print("Applying Crop")
                 point_1 = (x0, y0)
                 point_2 = (x1, y1)
-                print("P1:", point_1, "P2:", point_2)
 
                 temp_image = mi.open_image(file_io_input_path.get())
                 temp_image = ei.crop(temp_image, point_1, point_2)
@@ -257,6 +281,7 @@ class Window(tk.Frame):
                 img.image = new_image
 
             def visual_crop():
+                print("Cropping")
                 img.configure(cursor="crosshair")
                 gui_win.bind("<Button 1>", getorigin)
 
