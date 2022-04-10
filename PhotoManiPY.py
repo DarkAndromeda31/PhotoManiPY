@@ -166,10 +166,11 @@ class Window(tk.Frame):
             # Apply changes
             print("Cropping Image")
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
-            print("Changing Colors")
-            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
             print("Resizing Image")
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
+            print("Changing Colors")
+            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
+
 
             # Apply effects
             if subpixel_activated.get():
@@ -217,10 +218,10 @@ class Window(tk.Frame):
             # Apply changes
             print("Cropping Image")
             cur_image = ei.crop(cur_image, crop_point1, crop_point2)
-            print("Changing Colors")
-            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
             print("Resizing Image")
             cur_image = ei.resize(cur_image, (resize_x, resize_y))
+            print("Changing Colors")
+            cur_image = ei.shift_hsl(cur_image, hue_shift, sat_shift, lum_shift)
 
             # Apply effects
             if subpixel_activated.get():

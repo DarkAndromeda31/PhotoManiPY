@@ -123,6 +123,7 @@ def decode_image(filename: str) -> Image:
     body = binary[padding:]
 
     pic = decode_body(body, width, height, bit_depth)
+    pic.show()
 
     print("Decoded Image")
 
